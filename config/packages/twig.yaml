@@ -1,0 +1,10 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    form_themes: ['bootstrap_5_layout.html.twig']
+    globals:
+        default_user_photo: '%default_user_photo%'
+        default_vacancy_photo: '%default_vacancy_photo%'
+
+when@test:
+    twig:
+        strict_variables: true

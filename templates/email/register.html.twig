@@ -1,0 +1,8 @@
+<strong>Welcome {{name}}!</strong>
+<br/>
+<p>To confirm your registration please click here</p>
+
+<a href="{{ absolute_url(path('login', {'code': confirmation})) }}">Confirm registration</a>
+
+<p>If you didn't request this, please contact us.</p>
+

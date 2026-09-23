@@ -1,0 +1,174 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+     <section>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="page-title">
+                                <div class="row">
+                                    <div class="col-md-9 col-xs-12">
+                                        <h2><span>New job, new life</span></h2>
+
+                                        <p class="subtitle text-muted">We will be happy to help you with a new stage of your life.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    <section class="mt-5 pb-5">
+                <div class="container">
+
+                    <div class="row">
+                        <!-- Content-->
+                        <div class="col-xl-8">
+                            <div class="row">
+                                {% for v in vacancy %}
+                                    <div class="col-md-12 mb-4">
+                                        <!-- Post-->
+                                        <article class="post">
+
+                                            <div class="post-header">
+                                                <h2 class="post-title"><a href="{{ path("vacancy_show", {id: v.id}) }}">{{ v.title }}</a></h2>
+                                                <ul class="post-meta">
+                                                    <li><i class="mdi mdi-calendar"></i> {{ v.createdAt|format_date }}</li>
+                                                    <li><i class="mdi mdi-comment-multiple-outline"></i> <a href="#">3 Comments</a></li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="post-preview">
+                                                <a href="{{ path("vacancy_show", {id: v.id}) }}">
+                                                    {% if v.photo %}
+                                                        <img src="{{ v.photo }}" alt="" class="img-fluid rounded">
+                                                    {% else %}
+                                                        <img src="{{ default_vacancy_photo }}" alt="" class="img-fluid rounded">
+                                                    {% endif %}
+                                                </a>
+                                            </div>
+
+                                            <div class="post-content">
+                                                {{ (v.description ?? '')|striptags|u.truncate(150, '...') }}
+                                            </div>
+
+                                            <div><a href="{{ path("vacancy_show", {id: v.id}) }}" class="btn btn-outline-custom">Read More <i class="mdi mdi-arrow-right"></i></a></div>
+
+                                        </article>
+                                        <!-- Post end-->
+                                    </div>
+                                {% else %}
+                                    <p class="text-muted">There are no vacancies yet.</p>
+                                {% endfor %}
+
+                            </div>
+                            <!-- Pagination-->
+                            <div class="navigation d-flex justify-content-center mt-4">
+                                {{ knp_pagination_render(vacancy) }}
+                            </div>
+                            <!-- Pagination end-->
+
+                        </div>
+                        <!-- Content end-->
+
+                        <!-- Sidebar-->
+                        <div class="col-xl-4">
+                            <div class="sidebar">
+
+                                <!-- Search widget-->
+                                <aside class="widget widget_search">
+                                    <form method="get" action="{{ path('homepage') }}">
+                                        <input
+                                            class="form-control pr-5"
+                                            type="search"
+                                            name="q"
+                                            value="{{ app.request.query.get('q') }}"
+                                            placeholder="Search..."
+                                        >
+                                        <button class="search-button" type="submit">
+                                            <span class="mdi mdi-magnify"></span>
+                                        </button>
+                                    </form>
+                                    {% if app.request.query.get('q') %}
+                                        <a href="{{ path('homepage') }}" class="btn btn-sm btn-outline-secondary mt-2">
+                                            <i class="mdi mdi-close"></i> Reset the search
+                                        </a>
+                                    {% endif %}
+                                </aside>
+
+
+                                <!-- Categories widget-->
+                                <!--<aside class="widget widget_categories">
+                                    <div class="widget-title">Categories</div>
+                                    <ul>
+                                        <li><a href="#">Journey</a> (40)</li>
+                                        <li><a href="#">Photography</a> (08)</li>
+                                        <li><a href="#">Lifestyle</a> (11)</li>
+                                        <li><a href="#">Food & Drinks</a> (21)</li>
+                                    </ul>
+                                </aside>-->
+
+                                <!-- Recent entries widget-->
+                                <!--<aside class="widget widget_recent_entries_custom">
+                                    <div class="widget-title">Popular Posts</div>
+                                    <ul>
+                                        <li class="clearfix">
+                                            <div class="wi">
+                                                <a href="#"><img src="images/works/img1.jpg" alt="" class="img-fluid"></a>
+                                            </div>
+                                            <div class="wb"><a href="#">Beautiful Day With Friends..</a> <span class="post-date">Jun 15, 2019</span></div>
+                                        </li>
+                                        <li class="clearfix">
+                                            <div class="wi">
+                                                <a href="#"><img src="images/works/img2.jpg" alt="" class="img-fluid"></a>
+                                            </div>
+                                            <div class="wb"><a href="#">Nature valley with cooling..</a> <span class="post-date">Jun 10, 2019</span></div>
+                                        </li>
+                                        <li class="clearfix">
+                                            <div class="wi">
+                                                <a href="#"><img src="images/works/img3.jpg" alt="" class="img-fluid"></a>
+                                            </div>
+                                            <div class="wb"><a href="#">15 Best Healthy and Easy Salad..</a> <span class="post-date">Jun 8, 2019</span></div>
+                                        </li>
+                                    </ul>
+                                </aside>-->
+
+                                <!-- Text widget-->
+                                <aside class="widget">
+                                    <div class="widget-title">You will succeed.</div>
+
+                                    <p class="text-muted text-widget-des">Every rejection is not about you, but about a mismatch. Somewhere there is a team that needs exactly your experience, exactly your opinion, exactly you.</p>
+
+                                </aside>
+
+                                <!-- Archives widget-->
+                                <!--<aside class="widget">
+                                    <div class="widget-title">Archives</div>
+
+                                    <ul>
+                                        <li><a href="#">March 2019</a> (40)</li>
+                                        <li><a href="#">April 2019</a> (08)</li>
+                                        <li><a href="#">May 2019</a> (11)</li>
+                                        <li><a href="#">Jun 2019</a> (21)</li>
+                                    </ul>
+
+                                </aside>-->
+
+                                <!-- Tags widget-->
+                                <aside class="widget widget_tag_cloud">
+                                    <div class="widget-title">Tags</div>
+                                    <div class="tagcloud">
+                                        {% for t in tag %}
+                                            <a href="#">{{ t.name }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </aside>
+                            </div>
+                        </div>
+                        <!-- Sidebar end-->
+                    </div>
+
+                </div>
+                <!-- end container -->
+            </section>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{# % form_theme form 'bootstrap_5_layout.html.twig' % #}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/profile.js') }}" defer></script>
+{% endblock %}
+
+{% block body %}
+  <div class="page-wrapper">
+    <section class=" pt-5">
+      <div class="home-center">
+        <div class="home-desc-center">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-8">
+                <article class="post">
+                    <h5 class="text-center mt-0 pb-3 text-uppercase">
+                         <b>Info user</b>
+                    </h5>
+                    <h4 class="text-center mt-0 mb-5 pb-3 text-uppercase">
+                         <b>About me</b>
+                    </h4>
+
+                    {% for message in app.flashes('success') %}
+                         <div class="alert alert-success">{{ message }}</div>
+                    {% endfor %}
+
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger">{{ message }}</div>
+                    {% endfor %}
+
+                    {{ form_start(meForm, { 'attr': { 'novalidate': 'novalidate', 'data-turbo': 'false' } }) }}
+
+                        {{ form_row(meForm.photo) }}
+                        {{ form_row(meForm.name) }}
+                        {{ form_row(meForm.birthday) }}
+                        {{ form_row(meForm.location) }}
+                        {{ form_row(meForm.email) }}
+
+                        <button type="submit" class="btn btn-primary w-100">Update</button>
+
+                    {{ form_end(meForm) }}
+
+                    <h4 class="text-center mt-0 mt-5 pt-3 text-uppercase">
+                         <b>Attributes</b>
+                    </h4>
+                    <h5 class="text-center text-uppercase">Please indicate your skills.</h5>
+
+                    <div class="tab-pane " id="info">
+                        {% if user.userAttributes|length > 0 %}
+                            <ul class="list-group mb-3">
+                                {% for ua in user.userAttributes %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{{ ua.attribute.name }}:</strong>
+                                            <span>{{ ua.value|default('—') }}</span>
+                                        </div>
+                                        <form method="post"
+                                            action="{{ path('profile_attribute_delete', {id: ua.id}) }}"
+                                            onsubmit="return confirm('Delete «{{ ua.attribute.name }}»?');"
+                                            class="d-inline">
+                                            <input type="hidden" name="_token"
+                                                value="{{ csrf_token('delete_attribute_' ~ ua.id) }}">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="mdi mdi-delete"></i>
+                                            </button>
+                                        </form>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-muted">You don't have any attributes yet</p>
+                         {% endif %}
+
+                        <button type="button"
+                                class="btn btn-primary"
+                                data-toggle="modal"
+                                data-target="#attributeModal">
+                            + Add an attribute
+                        </button>
+                    </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal fade" id="attributeModal" tabindex="-1" role="dialog" aria-labelledby="attributeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" action="{{ path('profile') }}" id="attributeForm" data-turbo="false">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="attributeModalLabel">Add an attribute</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_row(attributeForm.attribute, {'attr': {'id': 'attribute-select'}}) }}
+
+                    <div id="value-field-container"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">To close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                {{ form_row(attributeForm._token) }}
+            </form>
+        </div>
+    </div>
+  </div>
+{% endblock %}
+

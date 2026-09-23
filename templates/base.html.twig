@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,600,700" rel="stylesheet">
+
+        <!-- Bootstrap core CSS -->
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+
+        <!-- MENU CSS -->
+        <link href="{{ asset('css/metismenu.min.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- MATERIALDESIGN ICON -->
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/materialdesignicons.min.css') }}">
+
+        <!-- CUSTOM STYLESHEET -->
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('css/default.css') }}" rel="stylesheet" type="text/css" />
+
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+
+        {% set frankenphp_hot_reload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+        {% if frankenphp_hot_reload %}
+        <meta name="frankenphp-hot-reload:url" content="{{ frankenphp_hot_reload }}">
+        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
+        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+        {% endif %}
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <!-- Top Bar Start -->
+            <div class="topbar-mobile">
+                <div class="logo">
+                <a href='index.html'><img src="{{ asset('images/logo.png') }}" alt="" class="" style="height: 44px;"></a>
+                <button class="button-menu-mobile">
+                    <i class="mdi mdi-menu"></i>
+                </button>
+                </div>
+            </div>
+            <!-- Top Bar End -->
+            <!-- ========== Left Sidebar Start ========== -->
+            <div class="left side-menu">
+
+                <div class="slimscroll-menu" id="remove-scroll">
+
+                <div class="logo">
+                    <a href='index.html' class="logo_name">Vacancy</a>
+                    <p class="text-muted">Your dream job</p>
+                </div>
+
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+
+                    {% if app.user %}
+                        <aside class="widget about-widget">
+
+                            <div class="text-center">
+                                {% if app.user.photo %}
+                                    <img src="{{ app.user.photo }}" alt="You" class="rounded-circle">
+                                {% else %}
+                                    <img src="{{ default_user_photo }}" alt="There is no uploaded photo" class="rounded-circle">
+                                {% endif %}
+                            </div>
+
+                         </aside>
+                    {% endif %}
+
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu" id="side-menu">
+                        {% if app.user %}
+                            <li>
+                                <p>Hello, {{ app.user.name }}!</p>
+                            </li>
+                        {% endif %}
+
+                        {% if app.user and (app.user.role.value == 'recruiter' or app.user.role.value == 'admin') %}
+                            <li>
+                                <a href='{{ path('admin') }}' target="_blank"><span> Admin </span></a>
+                            </li>
+                        {% endif %}
+
+                        <li> <hr> </li>
+
+                        <li>
+                            <a href='{{ path('homepage') }}'><span> {{ 'Home'|trans({}, 'menu') }}</span></a>
+                        </li>
+
+                        <li> <hr> </li>
+
+                        {% if app.user %}
+                            <li>
+                                <a href="{{ path('profile') }}">
+                                    Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('logout') }}" class="text-color-danger">
+                                    Logout
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="{{ path('login') }}">
+                                    Login
+                                </a>
+                            </li>
+
+                            {# Регистрация #}
+                            <li class="nav-item">
+                                <a href="{{ path('register') }}" >
+                                    Register
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+
+
+                </div>
+                <!-- Sidebar -->
+                <div class="clearfix"></div>
+
+                </div>
+                <!-- Sidebar -left -->
+
+            </div>
+            <!-- Left Sidebar End -->
+
+            <div class="page-wrapper">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+    </body>
+</html>
