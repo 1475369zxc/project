@@ -168,7 +168,9 @@ class Vacancy
 
     public function removeAttribute(Attribute $attribute): static
     {
-        $this->attributes->removeElement($attribute);
+        if ($this->attributes->removeElement($attribute)) {
+            $attribute->removeVacancy($this);
+        }
         return $this;
     }
 }

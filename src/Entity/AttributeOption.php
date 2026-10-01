@@ -16,8 +16,7 @@ class AttributeOption
     #[ORM\Column(length: 255)]
     private ?string $value = null;
 
-    #[ORM\Column]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\Column(nullable: true)]
     private ?int $position = 1;
 
     #[ORM\ManyToOne(inversedBy: 'options', targetEntity: Attribute::class)]

@@ -56,8 +56,8 @@
                 <div class="slimscroll-menu" id="remove-scroll">
 
                 <div class="logo">
-                    <a href='index.html' class="logo_name">Vacancy</a>
-                    <p class="text-muted">Your dream job</p>
+                    <a href='index.html' class="logo_name">{{ 'Vacancy'|trans({}, 'menu') }}</a>
+                    <p class="text-muted">{{ 'Your dream job'|trans({}, 'menu') }}</p>
                 </div>
 
                 <!--- Sidemenu -->
@@ -77,17 +77,31 @@
                          </aside>
                     {% endif %}
 
+
+
                     <!-- Left Menu Start -->
                     <ul class="metismenu" id="side-menu">
+
+                        {% set currentRoute = app.request.attributes.get('_route') %}
+                        {% set currentParams = app.request.attributes.get('_route_params') %}
+
+                        <li>
+                            {% if app.request.locale == 'ru' %}
+                                <a href="{{ path(currentRoute, currentParams|merge({'_locale': 'en'})) }}">EN</a>
+                            {% else %}
+                                <a href="{{ path(currentRoute, currentParams|merge({'_locale': 'ru'})) }}">RU</a>
+                            {% endif %}
+                        </li>
+
                         {% if app.user %}
                             <li>
-                                <p>Hello, {{ app.user.name }}!</p>
+                                <p>{{'Hello, %name%!'|trans({'%name%': app.user.name}, 'menu')}}</p>
                             </li>
                         {% endif %}
 
                         {% if app.user and (app.user.role.value == 'recruiter' or app.user.role.value == 'admin') %}
                             <li>
-                                <a href='{{ path('admin') }}' target="_blank"><span> Admin </span></a>
+                                <a href='{{ path('admin') }}' target="_blank"><span> {{ 'Admin'|trans({}, 'menu') }} </span></a>
                             </li>
                         {% endif %}
 
@@ -102,25 +116,25 @@
                         {% if app.user %}
                             <li>
                                 <a href="{{ path('profile') }}">
-                                    Profile
+                                    {{'Profile'|trans({}, 'menu') }}
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ path('logout') }}" class="text-color-danger">
-                                    Logout
+                                    {{'Logout'|trans({}, 'menu') }}
                                 </a>
                             </li>
                         {% else %}
                             <li class="nav-item">
                                 <a href="{{ path('login') }}">
-                                    Login
+                                    {{'Login'|trans({}, 'menu') }}
                                 </a>
                             </li>
 
                             {# Регистрация #}
                             <li class="nav-item">
                                 <a href="{{ path('register') }}" >
-                                    Register
+                                    {{ 'Register'|trans({}, 'menu') }}
                                 </a>
                             </li>
                         {% endif %}

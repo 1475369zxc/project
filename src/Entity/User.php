@@ -70,6 +70,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private Collection $userAttributes;
 
+    #[ORM\Column(length: 18, nullable: true)]
+    private ?string $salesforceAccountId = null;
+
+    #[ORM\Column(length: 18, nullable: true)]
+    private ?string $salesforceContactId = null;
+
     public function __construct()
     {
         $this->userAttributes = new ArrayCollection();
@@ -297,6 +303,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $userAttribute->setUser(null);
             }
         }
+        return $this;
+    }
+
+    public function getSalesforceAccountId(): ?string
+    {
+        return $this->salesforceAccountId;
+    }
+
+    public function setSalesforceAccountId(?string $salesforceAccountId): static
+    {
+        $this->salesforceAccountId = $salesforceAccountId;
+        return $this;
+    }
+
+    public function getSalesforceContactId(): ?string
+    {
+        return $this->salesforceContactId;
+    }
+
+    public function setSalesforceContactId(?string $salesforceContactId): static
+    {
+        $this->salesforceContactId = $salesforceContactId;
         return $this;
     }
 }

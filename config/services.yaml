@@ -14,6 +14,7 @@ parameters:
     app.email_from: 'nadejdavoytova@gmail.com'
     app.email_reply_to: 'nadejdavoytova@gmail.com'
 
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -37,6 +38,12 @@ services:
     App\Controller\ResetPasswordController:
         arguments:
             $emailFrom: '%app.email_from%'
+
+    App\Service\SalesforceService:
+        arguments:
+            $clientId: '%env(SALESFORCE_CLIENT_ID)%'
+            $clientSecret: '%env(SALESFORCE_CLIENT_SECRET)%'
+            $loginUrl: '%env(SALESFORCE_LOGIN_URL)%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

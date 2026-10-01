@@ -8,9 +8,9 @@
                             <div class="page-title">
                                 <div class="row">
                                     <div class="col-md-9 col-xs-12">
-                                        <h2><span>New job, new life</span></h2>
+                                        <h2><span>{{'New job, new life'|trans({}, 'homepage')}}</span></h2>
 
-                                        <p class="subtitle text-muted">We will be happy to help you with a new stage of your life.</p>
+                                        <p class="subtitle text-muted">{{'We will be happy to help you with a new stage of your life.'|trans({}, 'homepage')}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                                                 {{ (v.description ?? '')|striptags|u.truncate(150, '...') }}
                                             </div>
 
-                                            <div><a href="{{ path("vacancy_show", {id: v.id}) }}" class="btn btn-outline-custom">Read More <i class="mdi mdi-arrow-right"></i></a></div>
+                                            <div><a href="{{ path("vacancy_show", {id: v.id}) }}" class="btn btn-outline-custom">{{'Read More'|trans({}, 'homepage')}}<i class="mdi mdi-arrow-right"></i></a></div>
 
                                         </article>
                                         <!-- Post end-->
@@ -83,7 +83,7 @@
                                             type="search"
                                             name="q"
                                             value="{{ app.request.query.get('q') }}"
-                                            placeholder="Search..."
+                                            placeholder="{{'Search...'|trans({}, 'default')}}"
                                         >
                                         <button class="search-button" type="submit">
                                             <span class="mdi mdi-magnify"></span>
@@ -91,7 +91,7 @@
                                     </form>
                                     {% if app.request.query.get('q') %}
                                         <a href="{{ path('homepage') }}" class="btn btn-sm btn-outline-secondary mt-2">
-                                            <i class="mdi mdi-close"></i> Reset the search
+                                            <i class="mdi mdi-close"></i>{{'Reset the search'|trans({}, 'default')}}
                                         </a>
                                     {% endif %}
                                 </aside>
@@ -135,9 +135,11 @@
 
                                 <!-- Text widget-->
                                 <aside class="widget">
-                                    <div class="widget-title">You will succeed.</div>
+                                    <div class="widget-title">{{'You will succeed'|trans({}, 'homepage')}}</div>
 
-                                    <p class="text-muted text-widget-des">Every rejection is not about you, but about a mismatch. Somewhere there is a team that needs exactly your experience, exactly your opinion, exactly you.</p>
+                                    <p class="text-muted text-widget-des">
+                                        {{'Every rejection is not about you, but about a mismatch. Somewhere there is a team that needs exactly your experience, exactly your opinion, exactly you.'|trans({}, 'homepage')}}
+                                    </p>
 
                                 </aside>
 
@@ -156,7 +158,7 @@
 
                                 <!-- Tags widget-->
                                 <aside class="widget widget_tag_cloud">
-                                    <div class="widget-title">Tags</div>
+                                    <div class="widget-title">{{'Tags'|trans({}, 'default')}}</div>
                                     <div class="tagcloud">
                                         {% for t in tag %}
                                             <a href="#">{{ t.name }}</a>

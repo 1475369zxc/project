@@ -27,7 +27,7 @@
                                     {{ vacancy.description|raw }}
 
                                     <div class="mt-5">
-                                        <h6>Required attributes:</h6>
+                                        <h6>{{'Required attributes'|trans({}, 'default')}}:</h6>
                                         <div class="tagcloud">
                                             {% for att in vacancy.attributes %}
                                                 <a href="#"
@@ -54,10 +54,23 @@
 
                                 <!-- Search widget-->
                                 <aside class="widget widget_search">
-                                    <form>
-                                        <input class="form-control pr-5" type="search" placeholder="Search...">
-                                        <button class="search-button" type="submit"><span class="mdi mdi-magnify"></span></button>
+                                    <form method="get" action="{{ path('homepage') }}">
+                                        <input
+                                            class="form-control pr-5"
+                                            type="search"
+                                            name="q"
+                                            value="{{ app.request.query.get('q') }}"
+                                            placeholder="{{'Search...'|trans({}, 'default')}}"
+                                        >
+                                        <button class="search-button" type="submit">
+                                            <span class="mdi mdi-magnify"></span>
+                                        </button>
                                     </form>
+                                    {% if app.request.query.get('q') %}
+                                        <a href="{{ path('homepage') }}" class="btn btn-sm btn-outline-secondary mt-2">
+                                            <i class="mdi mdi-close"></i>{{'Reset the search'|trans({}, 'default')}}
+                                        </a>
+                                    {% endif %}
                                 </aside>
 
                                 <!-- Categories widget-->
@@ -98,10 +111,11 @@
 
                                 <!-- Text widget-->
                                 <aside class="widget">
-                                    <div class="widget-title">Text Widget</div>
+                                    <div class="widget-title">{{'You will succeed'|trans({}, 'homepage')}}</div>
 
-                                    <p class="text-muted text-widget-des">Exercitation photo booth stumptown tote bag Banksy, elit small batch freegan sed. Craft beer elit seitan exercitation, photo booth et 8-bit kale chips proident chillwave deep v laborum. Aliquip veniam delectus, Marfa eiusmod Pinterest in do umami readymade swag. </p>
-
+                                    <p class="text-muted text-widget-des">
+                                        {{'Every rejection is not about you, but about a mismatch. Somewhere there is a team that needs exactly your experience, exactly your opinion, exactly you.'|trans({}, 'homepage')}}
+                                    </p>
                                 </aside>
 
                                 <!-- Archives widget-->
